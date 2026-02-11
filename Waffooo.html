@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Very Serious Question 💘</title>
+
+<style>
+  body{
+    margin:0;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#ff9a9e,#fad0c4);
+    font-family:Arial,sans-serif;
+    overflow:hidden;
+  }
+
+  .card{
+    background:#fff;
+    padding:25px;
+    border-radius:20px;
+    text-align:center;
+    box-shadow:0 10px 30px rgba(0,0,0,0.2);
+    width:min(560px, 92vw);
+  }
+
+  h1{
+    font-size:22px;
+    line-height:1.3;
+    margin:0 0 14px;
+  }
+
+  .gif{
+    width:min(350px, 85vw);
+    max-height:230px;
+    border-radius:15px;
+    margin-bottom:15px;
+    object-fit:cover;
+  }
+
+  .buttons{
+    display:flex;
+    justify-content:center;
+    gap:14px;
+    flex-wrap:wrap;
+  }
+
+  button{
+    padding:12px 18px;
+    font-size:15px;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+    transition:transform 0.18s ease;
+    max-width:100%;
+  }
+
+  .primary{
+    background:#ff4d6d;
+    color:white;
+  }
+
+  .secondary{
+    background:#ddd;
+    color:black;
+  }
+
+  @keyframes fadeUp {
+    0% { opacity:1; transform:translateY(0); }
+    100% { opacity:0; transform:translateY(-40px); }
+  }
+</style>
+</head>
+
+<body>
+  <div class="card">
+    <h1 id="question"></h1>
+    <img id="gif" class="gif" alt="gif" />
+    <div class="buttons" id="buttons"></div>
+  </div>
+
+<script>
+  const steps = [
+    {
+      q:"Pyaray mere pyaray, I have a very serious question for you…",
+      gif:"https://media.giphy.com/media/0fzJO72NOWq6ybXitd/giphy.gif",
+      yes:"OK",
+      no:"No I am scared"
+    },
+    {
+      q:"Thank you for such brave step my lovely Waffooo.. You do believe that I am the most sexiest and cool-est man ever in your life?",
+      gif:"https://media.giphy.com/media/cNrD1WU6jvDYBQnJAb/giphy.gif",
+      yes:"Offcourse my love",
+      no:"No ayaat is Cooler than you"
+    },
+    {
+      q:"That is so rude of you to ignore a kid for me, you fkn rascal. But i like the attention. Now another question, will you let me do _______?",
+      gif:"https://media.giphy.com/media/GpLmqwmHWGc5G/giphy.gif",
+      yes:"Will i ever say no to you?",
+      no:"Eww no!!"
+    },
+    {
+      q:"OMG I cannot believe it. You're being amazing my little nugget!",
+      gif:"https://media.giphy.com/media/vIUTNTUtVKzer1FEY3/giphy.gif",
+      yes:"YOLO!",
+      no:"Take me back to the night we met 😭"
+    },
+    {
+      q:"Now that you're willing to risk it all...<br><br>Would you like to be my Valentine this Saturday night and spend it eating chicken and potatoes, and getting the most elite back massage of your life?",
+      gif:"https://media.giphy.com/media/wvI1UUF9pygFO/giphy.gif",
+      yes:"Yes I was born for that",
+      no:"I have no life but to be with you"
+    }
+  ];
+
+  const finalSlide = {
+    msg:"You just made the best decision of your life. 💘<br><br>Okay I gotta go buy the chicken now.<br><br>I love you!",
+    gif:"https://media.giphy.com/media/bznNJlqAi4pBC/giphy.gif"
+  };
+
+  let current = 0;
+
+  function renderStep(){
+    const step = steps[current];
+
+    document.getElementById("question").innerHTML = step.q;
+    document.getElementById("gif").src = step.gif;
+
+    document.getElementById("buttons").innerHTML = `
+      <button class="primary" id="yesBtn">${step.yes}</button>
+      <button class="secondary" id="noBtn">${step.no}</button>
+    `;
+
+    document.getElementById("yesBtn").onclick = () => {
+      if(current < steps.length - 1){
+        current++;
+        renderStep();
+      } else {
+        showFinal();
+      }
+    };
+
+    activateRunaway();
+  }
+
+  function activateRunaway(){
+    const noBtn = document.getElementById("noBtn");
+    if(!noBtn) return;
+
+    noBtn.addEventListener("mouseover", () => {
+      // Move only via translate so layout never changes (Yes stays put)
+      const x = Math.random() * 260 - 130;  // -130..+130
+      const y = Math.random() * 220 - 110;  // -110..+110
+      noBtn.style.transform = `translate(${x}px, ${y}px)`;
+
+      // Floating NOPE text near the No button
+      const r = noBtn.getBoundingClientRect();
+
+      const nope = document.createElement("div");
+      nope.innerText = "NOPE 😂";
+      nope.style.position = "fixed";
+      nope.style.left = (r.left + 10) + "px";
+      nope.style.top  = (r.top - 25) + "px";
+      nope.style.fontWeight = "bold";
+      nope.style.color = "#ff4d6d";
+      nope.style.fontSize = "18px";
+      nope.style.animation = "fadeUp 1s forwards";
+      document.body.appendChild(nope);
+
+      setTimeout(() => nope.remove(), 1000);
+    });
+  }
+
+  function showFinal(){
+    document.body.innerHTML = `
+      <div style="
+        height:100vh;
+        display:flex;
+        flex-direction:column;
+        justify-content:center;
+        align-items:center;
+        background:linear-gradient(135deg,#ff9a9e,#fad0c4);
+        font-family:Arial;
+        text-align:center;
+        padding:20px;">
+        <h1 style="margin:0 0 18px; line-height:1.25;">${finalSlide.msg}</h1>
+        <img src="${finalSlide.gif}" alt="celebration" style="
+          width:min(400px,90vw);
+          border-radius:18px;
+          box-shadow:0 10px 30px rgba(0,0,0,0.3);
+        ">
+      </div>
+    `;
+  }
+
+  renderStep();
+</script>
+</body>
+</html>
